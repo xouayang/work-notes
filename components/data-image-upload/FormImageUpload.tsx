@@ -150,7 +150,7 @@ export default function UploadForm() {
       <Input
         isRequired
         variant="bordered"
-        label="ເສັ້ນແວງ"
+        label="Longitude"
         type="text"
         name="longItude"
         value={dataForm.longItude}
@@ -161,7 +161,7 @@ export default function UploadForm() {
       <Input
         isRequired
         variant="bordered"
-        label="ເສັ້ນຂະໜານ"
+        label="Latitude"
         type="text"
         name="laItude"
         value={dataForm.laItude}

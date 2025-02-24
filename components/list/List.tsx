@@ -112,8 +112,8 @@ const List = () => {
             <TableColumn key="room">ຫ້ອງປະຕິບັດວຽກ</TableColumn>
             <TableColumn key="reason">ເຫດຜົນທີ່ເກີດຂື້ນ</TableColumn>
             <TableColumn key="kilomet">ກີໂລເເມັດທີ່ເກີດຂື້ນ</TableColumn>
-            <TableColumn key="longItude">ເສັ້ນແວງ</TableColumn>
-            <TableColumn key="laItude">ເສັ້ນຂະໜານ</TableColumn>
+            <TableColumn key="longItude">Longitude</TableColumn>
+            <TableColumn key="laItude">Latitude</TableColumn>
             <TableColumn key="createAt">ວັນທີ</TableColumn>
             <TableColumn key="actions">Actions</TableColumn>
           </TableHeader>
