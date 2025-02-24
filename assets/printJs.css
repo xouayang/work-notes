@@ -1,0 +1,31 @@
+/* Define print-specific styles */
+.print-only {
+  display: none;
+}
+@media print {
+  body {
+    font-family: 'Phetsarath OT', sans-serif; /* Apply your custom font */
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  th, td {
+    border: 1px solid black;
+    padding: 8px;
+    text-align: left;
+    font-family: 'Phetsarath OT', sans-serif; /* Set font-family for table data */
+  }
+
+  /* Additional print styling */
+  .pagination, .button-print {
+    display: none; /* Hide pagination or buttons for printing */
+  }
+  .print-only {
+    display: block;
+    text-align: end;
+    padding: 20px;
+  }
+}
