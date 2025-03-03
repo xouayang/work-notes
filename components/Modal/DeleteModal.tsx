@@ -20,7 +20,7 @@ type Data = {
   longItude: string;
   laItude: string;
   another: string;
-  date: string | Date;
+  createdAt: string | Date;
 };
 type deleteIdType = {
   deleteId: string;

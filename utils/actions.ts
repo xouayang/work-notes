@@ -1,6 +1,5 @@
    "use server"
-import { PrismaClient } from '@prisma/client'
-const prisma = new PrismaClient()
+import axios from "axios";
 import { parseISO } from "date-fns";
 const renderError = (error: unknown): { message: string } => {
     //code body
@@ -39,23 +38,15 @@ const renderError = (error: unknown): { message: string } => {
 //   };
  export const getDataList = async () => {
   try {
-       const dataList = await prisma.post.findMany({
-        orderBy:{
-          date:'desc'
-        }
-       })
-        return dataList
+    const dataList = await axios.get('http://localhost:2000/api/task')
+    return dataList.data
   } catch (error) {
     return renderError(error)
   }
  }
  export const deleteDataId = async (deleteId:string) => {
    try {
-      await prisma.post.delete({
-        where:{
-          id:deleteId
-        }
-      }).then((deleted) => {
+      await axios.delete(`http://localhost:2000/api/task/${deleteId}`).then((deleted) => {
         if(deleted) {
           return "ລຶບຂໍ້ມູນສຳເລັດ"
         }
@@ -82,12 +73,7 @@ const renderError = (error: unknown): { message: string } => {
 };
  export const updateDataId = async (formData: Partial<Data>) => {
         try {
-          await prisma.post.update({
-            where:{
-              id:formData.id
-            },
-            data:formData
-          }).then(() => {
+          await axios.put(`http://localhost:2000/api/task/${formData.id}`,formData).then(() => {
             return {success:true,message:"ແກ້ໄຂຂໍ້ມູນສຳເລັດ"}
           }).catch((error) => {
             return renderError(error)
@@ -103,21 +89,20 @@ const renderError = (error: unknown): { message: string } => {
   endDate: string | null
  }
  export const searchDate = async(dataPicker:TypeSearch) => {
+
   const startDate = dataPicker.startDate ? parseISO(dataPicker.startDate) : null;
   const endDate = dataPicker.endDate ? parseISO(dataPicker.endDate) : null;
-  try {
-     const result = await prisma.post.findMany({
-      where:{
-        date:{
-          ...(startDate && { gte: startDate }),
-          ...(endDate && { lte: endDate }),
-        }
-      }
-     })
-     if(result.length > 0) {
-       return result;
-     }
-} catch (error) {
-    return renderError(error);
-}
+    try {
+    const api_data =  await axios.get('http://localhost:2000/api/task/search',
+       {params: { startDate, endDate }})
+       if(api_data.data) {
+        const result = api_data.data
+        console.log(result)
+        return result;
+       } else {
+        return "NOT FOUND DATA"
+       }
+    } catch (error) {
+      return renderError(error)
+    }
  }

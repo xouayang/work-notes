@@ -22,7 +22,7 @@ type Data = {
   longItude: string;
   laItude: string;
   another: string;
-  date: string | Date;
+  createdAt: string | Date;
 };
 
 type EditeType = {
@@ -118,14 +118,14 @@ const EditModal = ({ updateId, isOpen, onClose, setIsFetch }: EditeType) => {
           />
           <Input
             name="longItude"
-            label="ເສັ້ນແວງ"
+            label="longItude"
             variant="bordered"
             value={formData.longItude || ""}
             onChange={handleChange}
           />
           <Input
             name="laItude"
-            label="ເສັ້ນຂະໜານ"
+            label="laItude"
             variant="bordered"
             value={formData.laItude || ""}
             onChange={handleChange}

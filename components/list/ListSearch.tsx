@@ -24,7 +24,7 @@ type resultTypeData = {
   image: string;
   laItude: string;
   longItude: string;
-  date: Date;
+  createdAt: string | Date;
 };
 
 type propsType = {
@@ -33,100 +33,15 @@ type propsType = {
 };
 
 const ListSearch = ({ fetchData, resetData }: propsType) => {
-  //   const [page, setPage] = useState(1);
-  //   const rowsPerPage = 4;
-  //   const pages = Math.ceil(fetchData.length / rowsPerPage);
+  console.log("from report", fetchData);
 
-  //   const items = useMemo(() => {
-  //     const start = (page - 1) * rowsPerPage;
-  //     const end = start + rowsPerPage;
-  //     return fetchData.slice(start, end);
-  //   }, [page, fetchData]);
-  //   const contentRef = useRef<HTMLDivElement>(null);
-  //   const reactToPrintFn = useReactToPrint({ contentRef });
+
   const contentRef = useRef<HTMLDivElement>(null);
   const reactToPrintFn = useReactToPrint({ contentRef });
   const datatoPrint = format(Date.now(), "dd/MM/yyyy hh:mm a");
   return (
     <div className="p-4">
-      {/* <div>
-        <Table
-          aria-label="Example table with client side pagination"
-          bottomContent={
-            <div className="flex w-full justify-center">
-              <Pagination
-                className="pagination"
-                isCompact
-                showControls
-                showShadow
-                color="secondary"
-                page={page}
-                total={pages}
-                onChange={(page) => setPage(page)}
-              />
-            </div>
-          }
-          classNames={{
-            wrapper: "min-h-[222px]",
-          }}
-        >
-          <TableHeader>
-            <TableColumn key="image">ຮູບ</TableColumn>
-            <TableColumn key="taskWork">ໜ້າວຽກ</TableColumn>
-            <TableColumn key="amountPeople">ຈຳນວນຄົນ</TableColumn>
-            <TableColumn key="room">ຫ້ອງປະຕິບັດວຽກ</TableColumn>
-            <TableColumn key="reason">ເຫດຜົນທີ່ເກີດຂື້ນ</TableColumn>
-            <TableColumn key="kilomet">ກີໂລແມັດທີ່ເກີດຂື້ນ</TableColumn>
-            <TableColumn key="longItude">ເສັ້ນແວງ</TableColumn>
-            <TableColumn key="laItude">ເສັ້ນຂະໜານ</TableColumn>
-            <TableColumn key="date">ວັນທີ</TableColumn>
-          </TableHeader>
-          <TableBody items={items}>
-            {(item) => (
-              <TableRow key={item.id}>
-                {(columnKey) => {
-                  switch (columnKey) {
-                    case "date":
-                      return (
-                        <TableCell>
-                          {item.date instanceof Date
-                            ? item.date.toLocaleDateString("en-GB", {
-                                day: "2-digit",
-                                month: "2-digit",
-                                year: "numeric",
-                                hour: "numeric",
-                                minute: "numeric",
-                                second: "numeric",
-                              })
-                            : "-"}
-                        </TableCell>
-                      );
-                    case "image":
-                      return (
-                        <TableCell>
-                          {item.image ? (
-                            <Image
-                              isZoomed
-                              src={item.image}
-                              alt="Task Image"
-                              className="w-12 h-12 object-cover rounded xs:w-10 xs:h-10 sm:w-24 sm:h-24 md:w-32 md:h-32"
-                            />
-                          ) : (
-                            "No Image"
-                          )}
-                        </TableCell>
-                      );
-                    default:
-                      return (
-                        <TableCell>{getKeyValue(item, columnKey)}</TableCell>
-                      );
-                  }
-                }}
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
-      </div> */}
+
       <div ref={contentRef}>
         <div className="print-only flex justify-end pb-2 pt-2">
           ວັນທີ : {datatoPrint}
@@ -142,7 +57,8 @@ const ListSearch = ({ fetchData, resetData }: propsType) => {
             <TableColumn key="kilomet">ກີໂລແມັດທີ່ເກີດຂື້ນ</TableColumn>
             <TableColumn key="longItude">Longitude</TableColumn>
             <TableColumn key="laItude">Latitude</TableColumn>
-            <TableColumn key="date">ວັນທີ</TableColumn>
+            <TableColumn key="another">ອື່ນໆ</TableColumn>
+            <TableColumn key="createdAt">ວັນທີ</TableColumn>
           </TableHeader>
           <TableBody
             items={fetchData.map((item, i) => ({ ...item, index: i + 1 }))}
@@ -165,17 +81,17 @@ const ListSearch = ({ fetchData, resetData }: propsType) => {
                 <TableCell>{item.kilomet}</TableCell>
                 <TableCell>{item.longItude}</TableCell>
                 <TableCell>{item.laItude}</TableCell>
+                <TableCell>{item.another}</TableCell>
                 <TableCell>
-                  {item.date instanceof Date
-                    ? item.date.toLocaleDateString("en-GB", {
-                        day: "2-digit",
-                        month: "2-digit",
-                        year: "numeric",
-                        hour: "numeric",
-                        minute: "numeric",
-                        second: "numeric",
-                      })
-                    : "-"}
+                  {new Date(item.createdAt).toLocaleString("en-US", {
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "numeric",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    second: "2-digit",
+                    hour12: true,
+                  })}
                 </TableCell>
               </TableRow>
             )}

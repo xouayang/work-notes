@@ -20,7 +20,7 @@ type resultTypeData = {
   image: string;
   laItude: string;
   longItude: string;
-  date: Date;
+  createdAt: string | Date;
 }
 const Report = () => {
   const [dataPicker, setDataPicker] = useState<DateType>({
@@ -30,11 +30,11 @@ const Report = () => {
   const [fetchData, setFetchData] = useState<resultTypeData[]>([])
   const [loading, setLoading] = useState(false);
 
-  // Handler for the start date picker
+
   const handleStartDateChange = (date:CalendarDate | null) => {
     setDataPicker((prev) => ({ ...prev, startDate: date }));
   };
-  // Handler for the end date picker
+
   const handleEndDateChange = (date:CalendarDate | null) => {
     setDataPicker((prev) => ({ ...prev, endDate: date }));
   };
@@ -61,7 +61,7 @@ const Report = () => {
   }
   };
   const resetData = () => {
-    setFetchData([]); // Clear the fetchData
+    setFetchData([]);
   };
   return (
     <>

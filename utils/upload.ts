@@ -1,7 +1,7 @@
 "use server";
-import { PrismaClient } from '@prisma/client'
-const prisma = new PrismaClient()
+
 import { v2 as cloudinary } from "cloudinary";
+import axios from 'axios'
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
@@ -27,21 +27,19 @@ export async function uploadTask(formData: FormData) {
       `data:image/png;base64,${base64Image}`, 
       { folder: "tasks" }
     );
-    const task = await prisma.post.create({
-      data: {
-        image: uploadResult.secure_url,
-        amountPeople,
-        room,
-        reason,
-        kilomet,
-        longItude,
-        laItude,
-        another,
-        taskWork,
-      },
-    });
-
-    return { success: true, message:"ບັນທຶກຂໍ້ມູນສຳເລັດ", task};
+    const data = {
+      image:uploadResult.secure_url,
+      amountPeople,
+      room,
+      reason,
+      kilomet,
+      longItude,
+      laItude,
+      another,
+      taskWork,
+    }
+     await axios.post('http://localhost:2000/api/task',data)
+    return { success: true, message:"ບັນທຶກຂໍ້ມູນສຳເລັດ"};
   } catch (error) {
     return {success: false, message:"ບັນທຶກຂໍ້ມູນບໍ່ສຳເລັດ",error}
   }

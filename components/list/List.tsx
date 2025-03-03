@@ -26,7 +26,7 @@ type Data = {
   longItude: string;
   laItude: string;
   another: string;
-  date: string | Date;
+  createdAt: string | Date;
 };
 
 const List = () => {
@@ -47,18 +47,17 @@ const List = () => {
   const [isUpdateId, setIsUpdateId] = useState<Partial<Data>>({});
   const [isDeleteIdOpen, setIsDeleteIdOpen] = useState(false);
   const [isUpdateIdOpen, setIsUpdateIdOpen] = useState(false);
-  //  const {isOpen,onOpen,onOpenChange} = useDisclosure()
+
   useEffect(() => {
     const fetch = async () => {
       try {
         const result = await getDataList();
         if (Array.isArray(result)) {
           setIsFetch(result);
-      } else {
-          setIsFetch([]); // Fallback to an empty array
+        } else {
+          setIsFetch([]); 
           console.error("Data fetched is not an array:", result);
-      }
-      
+        }
       } catch (error) {
         console.error("Failed to fetch data:", error);
       } finally {
@@ -66,7 +65,7 @@ const List = () => {
       }
     };
     fetch();
-  }, []);;
+  }, []);
 
   if (isLoading) {
     return (
@@ -75,9 +74,9 @@ const List = () => {
       </div>
     );
   }
-  const handleEdit = (item:Data) => {
+  const handleEdit = (item: Data) => {
     setIsUpdateId(item);
-    setIsUpdateIdOpen(true)
+    setIsUpdateIdOpen(true);
   };
   const handleDelete = (id: string) => {
     setIsDeleteId(id);
@@ -114,7 +113,8 @@ const List = () => {
             <TableColumn key="kilomet">ກີໂລເເມັດທີ່ເກີດຂື້ນ</TableColumn>
             <TableColumn key="longItude">Longitude</TableColumn>
             <TableColumn key="laItude">Latitude</TableColumn>
-            <TableColumn key="createAt">ວັນທີ</TableColumn>
+            <TableColumn key="another">ອື່ນໆ</TableColumn>
+            <TableColumn key="createdAt">ວັນທີ</TableColumn>
             <TableColumn key="actions">Actions</TableColumn>
           </TableHeader>
           <TableBody items={items}>
@@ -136,29 +136,24 @@ const List = () => {
                           <Button
                             size="sm"
                             color="danger"
-                            onPress={() =>
-                              handleDelete(
-                                item.id,
-                              )
-                            }
+                            onPress={() => handleDelete(item.id)}
                           >
                             <FiTrash2 /> ລຶບ
                           </Button>
                         </TableCell>
                       );
-                    case "createAt":
+                    case "createdAt":
                       return (
                         <TableCell>
-                          {item.date instanceof Date
-                            ? item.date.toLocaleDateString("en-GB", {
-                                day: "2-digit",
-                                month: "2-digit",
-                                year: "numeric",
-                                hour: "numeric",
-                                minute: "numeric",
-                                second: "numeric",
-                              })
-                            : "-"}
+                          {new Date(item.createdAt).toLocaleString("en-US", {
+                            day: "2-digit",
+                            month: "2-digit",
+                            year: "numeric",
+                            hour: "2-digit",
+                            minute: "2-digit",
+                            second: "2-digit",
+                            hour12: true,
+                          })}
                         </TableCell>
                       );
 
@@ -178,7 +173,12 @@ const List = () => {
           isOpen={isDeleteIdOpen}
           onClose={() => setIsDeleteIdOpen(false)}
         />
-        <EditModal setIsFetch={setIsFetch} updateId={isUpdateId} isOpen = {isUpdateIdOpen} onClose = {() => setIsUpdateIdOpen(false)} />
+        <EditModal
+          setIsFetch={setIsFetch}
+          updateId={isUpdateId}
+          isOpen={isUpdateIdOpen}
+          onClose={() => setIsUpdateIdOpen(false)}
+        />
       </div>
     </>
   );
