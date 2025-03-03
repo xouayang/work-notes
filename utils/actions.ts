@@ -97,7 +97,6 @@ const renderError = (error: unknown): { message: string } => {
        {params: { startDate, endDate }})
        if(api_data.data) {
         const result = api_data.data
-        console.log(result)
         return result;
        } else {
         return "NOT FOUND DATA"
